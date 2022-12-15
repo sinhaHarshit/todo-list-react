@@ -1,10 +1,15 @@
 import React from 'react'
 
 const Footer = () => {
+    let footerStyle = {
+        position: "absolute",
+        top:"90vh",
+        width: "100%"
+    }
   return (
-    <div>
-      This is footer
-    </div>
+    <footer className="bg-dark text-light py-5" style = {footerStyle}>
+        <p className="text-center"> This is a footer</p>
+    </footer>
   )
 }
 
