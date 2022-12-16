@@ -3,37 +3,34 @@ import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Todos from './components/Todos';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Additem from './components/Additem';
 
 
 
 function App() {
+  //retreiving todos from local storage
+  let initTodo;
+  if (localStorage.getItem("todos") === null) {
+    initTodo = [];
+  }
+  else {
+    initTodo = JSON.parse(localStorage.getItem("todos"));
+  }
+
+  //onDelete function deletes current todo item
   const onDelete = (todo) => {
-    console.log("Deleting this item", todo.title)
+    console.log("Deleting this item", todo)
 
     setTodos(todos.filter((t) => {
       return t !== todo;
     }))
+    //saving todos to local storage IN json form
+    localStorage.setItem("todos", JSON.stringify(todos));
+
   }
 
-  const [todos, setTodos] = useState([
-    {
-      sno: 1,
-      title: "TODO 1",
-      desc: "This is the Description of TODO 1"
-    },
-    {
-      sno: 2,
-      title: "TODO 2",
-      desc: "This is the Description of TODO 2"
-    },
-    {
-      sno: 3,
-      title: "TODO 3",
-      desc: "This is the Description of TODO 3"
-    }
-  ]);
+  const [todos, setTodos] = useState(initTodo);
 
   const addTodo = (title, desc) => {
     if (title && desc) {
@@ -54,6 +51,10 @@ function App() {
       console.log(newTodo)
     }
   }
+  useEffect(() => {
+    //saving todos to local storage IN json form
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos])
   return (
     <>
       <Header title="Todo List" />
